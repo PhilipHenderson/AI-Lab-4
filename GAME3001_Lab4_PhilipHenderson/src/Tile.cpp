@@ -53,13 +53,20 @@ void Tile::setTileCost(float cost)
 void Tile::addLabels()
 {
 	auto offset = glm::vec2(Config::TILE_SIZE * 0.5f, Config::TILE_SIZE * 0.5f);
+
 	m_costLabel = new Label("99.9", "Consolas", 12);
-	m_costLabel->getTransform()->position = getTransform()->position + offset;
+	m_costLabel->getTransform()->position = getTransform()->position + offset + glm::vec2(0.0f, -7.0f);
 	getParent()->addChild(m_costLabel);
 	m_costLabel->setEnabled(false);
+
+	m_statusLabel = new Label("--", "Consolas", 12);
+	m_statusLabel->getTransform()->position = getTransform()->position + offset + glm::vec2(0.0f, 7.0f);
+	getParent()->addChild(m_statusLabel);
+	m_statusLabel->setEnabled(false);
 }
 
 void Tile::setLabelsEnabled(const bool state)
 {
 	m_costLabel->setEnabled(state);
+	m_statusLabel->setEnabled(state);
 }
