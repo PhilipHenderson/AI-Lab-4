@@ -8,6 +8,8 @@ Tile::Tile() :m_cost(0.0f)
 {
 	setWidth(Config::TILE_SIZE);
 	setHeight(Config::TILE_SIZE);
+
+	setTileCost(0.0f);
 }
 
 Tile::~Tile()
@@ -46,4 +48,18 @@ void Tile::setTileCost(float cost)
 	m_cost = cost;
 
 	//TODO: Display cost in label
+}
+
+void Tile::addLabels()
+{
+	auto offset = glm::vec2(Config::TILE_SIZE * 0.5f, Config::TILE_SIZE * 0.5f);
+	m_costLabel = new Label("99.9", "Consolas", 12);
+	m_costLabel->getTransform()->position = getTransform()->position + offset;
+	getParent()->addChild(m_costLabel);
+	m_costLabel->setEnabled(false);
+}
+
+void Tile::setLabelsEnabled(const bool state)
+{
+	m_costLabel->setEnabled(state);
 }

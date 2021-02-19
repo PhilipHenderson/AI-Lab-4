@@ -82,6 +82,7 @@ void PlayScene::GUI_Function()
 	ImGui::Begin("GAME3001 - Lab 3", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
 
 	static bool isGridEnabled = false;
+	static bool isLabelsEnabled = false;
 	if(ImGui::Checkbox("Grid Enabled", &isGridEnabled))
 	{
 		// toggle grid on/off
@@ -126,6 +127,7 @@ void PlayScene::m_buildGrid()
 			Tile* tile = new Tile(); // create empty tile
 			tile->getTransform()->position = glm::vec2(col * tileSize, row * tileSize);
 			addChild(tile);
+			tile->addLabels();
 			tile->setEnabled(false);
 			m_pGrid.push_back(tile);
 		}
@@ -188,6 +190,7 @@ void PlayScene::m_setGridEnabled(bool state)
 	for (auto tile : m_pGrid)
 	{
 		tile->setEnabled(state);
+		tile->setLabelsEnabled(state);
 	}
 
 	if(state == false)
