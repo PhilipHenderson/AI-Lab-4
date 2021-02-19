@@ -28,6 +28,9 @@ public:
 	void addLabels();
 	void setLabelsEnabled(bool state);
 
+	glm::vec2 getGridPosition();
+	void setGridPosition(float col, float row);
+
 private:
 
 	Label* m_costLabel;
@@ -35,6 +38,8 @@ private:
 
 	float m_cost;
 	Tile* m_neighbours[NUM_OF_NEIGHBOUR_TILES];
+
+	glm::vec2 m_gridPosition;
 };
 
 #endif /* defined (__TILE__) */
