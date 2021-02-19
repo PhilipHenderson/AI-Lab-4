@@ -76,13 +76,15 @@ void PlayScene::start()
 
 void PlayScene::GUI_Function() 
 {
+
+	auto offset = glm::vec2(Config::TILE_SIZE * 0.5f, Config::TILE_SIZE * 0.5f);
 	// Always open with a NewFrame
 	ImGui::NewFrame();
 
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("GAME3001 - Lab 3", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("GAME3001 - Lab 3", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
 	static bool isGridEnabled = false;
 	static bool isLabelsEnabled = false;
@@ -92,9 +94,25 @@ void PlayScene::GUI_Function()
 		m_setGridEnabled(isGridEnabled);
 	}
 
-	
 	ImGui::Separator();
 	
+	static int targetPosition[] = { m_pTarget->getGridPosition().x, m_pTarget->getGridPosition().y };
+
+	if (ImGui::SliderInt2("Target Position", targetPosition, 0, Config::COL_NUM - 1))
+	{
+		//row adjustment
+		if (targetPosition[1] > Config::ROW_NUM - 1)
+		{
+			targetPosition[1] = Config::ROW_NUM - 1;
+		}
+		SDL_RenderClear(Renderer::Instance()->getRenderer());
+		m_pTarget->getTransform()->position = m_getTile(targetPosition[0], targetPosition[1])->getTransform()->position + offset;
+		m_pTarget->setGridPosition(targetPosition[0], targetPosition[1]);
+		m_computeTileCosts();
+		SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 255, 255, 255, 255);
+		SDL_RenderPresent(Renderer::Instance()->getRenderer());
+	}
+
 	if(ImGui::Button("Start"))
 	{
 		
